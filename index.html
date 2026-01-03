@@ -93,9 +93,24 @@
         'adobe': 'assets/images/services/adobe.png'
       };
       
+      // Helper function to check if image should be skipped (Unsplash, Pexels, etc.)
+      function shouldSkipImage(img){
+        var src = (img.src || '').toLowerCase();
+        var dataSrc = (img.getAttribute('data-src') || '').toLowerCase();
+        // Skip course/book images from external sources that should NOT be replaced
+        if(src.indexOf('unsplash.com') !== -1 || dataSrc.indexOf('unsplash.com') !== -1) return true;
+        if(src.indexOf('pexels.com') !== -1 || dataSrc.indexOf('pexels.com') !== -1) return true;
+        // Skip images already marked as fixed or course images
+        if(img.getAttribute('data-st-skip')) return true;
+        return false;
+      }
+      
       function getLocalImageForUrl(src){
         if(!src) return null;
         var srcLower = src.toLowerCase();
+        // Never return replacement for Unsplash/Pexels images
+        if(srcLower.indexOf('unsplash.com') !== -1) return null;
+        if(srcLower.indexOf('pexels.com') !== -1) return null;
         for(var key in serviceImageMap){
           if(srcLower.indexOf(key) !== -1){
             return serviceImageMap[key];
@@ -108,17 +123,18 @@
         try{
           Array.from(document.images).forEach(function(img){
             try{
+              // Skip images that should not be processed (Unsplash, Pexels, etc.)
+              if(shouldSkipImage(img)) {
+                img.setAttribute('data-st-fixed', '1');
+                img.setAttribute('data-st-skip', '1');
+                return;
+              }
+              
               // Skip already processed images
               if(img.getAttribute('data-st-fixed')) return;
               
               var src = img.src || '';
               var alt = (img.alt || '').toLowerCase();
-              
-              // IMPORTANT: Skip Unsplash images - these are for courses and should NOT be replaced
-              if(src.indexOf('unsplash.com') !== -1 || src.indexOf('images.unsplash.com') !== -1){
-                img.setAttribute('data-st-fixed', '1'); // Mark as processed to prevent future processing
-                return;
-              }
               
               // Check if this is an external image that might fail
               if(src.indexOf('http') === 0 && src.indexOf(window.location.host) === -1){
@@ -181,6 +197,9 @@
           // Keep original sizes - don't override CSS
           Array.from(document.images).forEach(function(ii){
             try{
+              // Skip course/book images (Unsplash, Pexels)
+              if(shouldSkipImage(ii)) return;
+              
               var s = ii.src || '';
               var decoded = '';
               try{ decoded = decodeURIComponent(s); }catch(e){}
@@ -278,16 +297,17 @@
       // Fix a single image element
       function fixSingleImage(img){
         try{
+          // Skip images that should not be processed (Unsplash, Pexels, etc.)
+          if(shouldSkipImage(img)) {
+            img.setAttribute('data-st-fixed', '1');
+            img.setAttribute('data-st-skip', '1');
+            return;
+          }
+          
           if(img.getAttribute('data-st-fixed')) return;
           
           var src = img.src || '';
           var alt = (img.alt || '').toLowerCase();
-          
-          // IMPORTANT: Skip Unsplash images - these are for courses and should NOT be replaced
-          if(src.indexOf('unsplash.com') !== -1 || src.indexOf('images.unsplash.com') !== -1){
-            img.setAttribute('data-st-fixed', '1'); // Mark as processed to prevent future processing
-            return;
-          }
           
           // Check if this is an external image
           if(src.indexOf('http') === 0 && src.indexOf(window.location.host) === -1){
