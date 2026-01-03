@@ -54,116 +54,9 @@
 <body>
   <div id="root"></div>
 
-  <!-- Injected helper script: fixes WhatsApp URL encoding, replaces logos, and handles service images -->
+  <!-- Minimal helper script: only fixes WhatsApp links and header logo -->
   <script>
     (function(){
-      // Map external image URLs to local service images
-      var serviceImageMap = {
-        'openai': 'assets/images/services/chatgpt.png',
-        'chatgpt': 'assets/images/services/chatgpt.png',
-        'gemini': 'assets/images/services/gemini.png',
-        'gstatic.com/lamda': 'assets/images/services/gemini.png',
-        'claude': 'assets/images/services/claude.webp',
-        'logowik': 'assets/images/services/claude.webp',
-        'cursor': 'assets/images/services/cursor.png',
-        'elevenlabs': 'assets/images/services/elevenlabs.svg',
-        'perplexity': 'assets/images/services/copilot.jpg',
-        'netflix': 'assets/images/services/netflix.jpg',
-        'ctfassets': 'assets/images/services/netflix.jpg',
-        'primevideo': 'assets/images/services/primevideo.jpg',
-        'vimeocdn': 'assets/images/services/primevideo.jpg',
-        'canva': 'assets/images/services/canva.jpg',
-        'grammarly': 'assets/images/services/grammarly.png',
-        'microsoft365': 'assets/images/services/microsoft365.jpg',
-        'linkedin': 'assets/images/services/linkedin.png',
-        'coursera': 'assets/images/services/coursera.png',
-        'nordvpn': 'assets/images/services/nordvpn.jpg',
-        'surfshark': 'assets/images/services/surfshark.png',
-        'disneyplus': 'assets/images/services/disneyplus.svg',
-        'hbomax': 'assets/images/services/hbomax.jpg',
-        'hulu': 'assets/images/services/hulu.jpg',
-        'crunchyroll': 'assets/images/services/crunchyroll.jpg',
-        'capcut': 'assets/images/services/capcut.jpg',
-        'quillbot': 'assets/images/services/quillbot.jpg',
-        'turnitin': 'assets/images/services/turnitin.jpg',
-        'jenni': 'assets/images/services/jenni.jpg',
-        'vidiq': 'assets/images/services/vidiq.png',
-        'grok': 'assets/images/services/grok.webp',
-        'copilot': 'assets/images/services/copilot.jpg',
-        'adobe': 'assets/images/services/adobe.png'
-      };
-      
-      // Helper function to check if image should be skipped (course/book images)
-      function shouldSkipImage(img){
-        var src = (img.src || '').toLowerCase();
-        var dataSrc = (img.getAttribute('data-src') || '').toLowerCase();
-        
-        // Skip course/book images from external sources
-        if(src.indexOf('unsplash.com') !== -1 || dataSrc.indexOf('unsplash.com') !== -1) return true;
-        if(src.indexOf('pexels.com') !== -1 || dataSrc.indexOf('pexels.com') !== -1) return true;
-        
-        // Skip images already marked
-        if(img.getAttribute('data-st-skip')) return true;
-        
-        // Skip images with card classes (h-48 is used for product/course card images)
-        var imgClass = (img.className || '').toLowerCase();
-        if(imgClass.indexOf('h-48') !== -1) return true;
-        if(imgClass.indexOf('object-cover') !== -1 && imgClass.indexOf('h-48') !== -1) return true;
-        
-        // Skip images inside product card containers
-        var parent = img.parentElement;
-        for(var i = 0; i < 5 && parent; i++){
-          var parentClass = (parent.className || '').toLowerCase();
-          // Skip if inside a card (rounded-2xl is used on cards)
-          if(parentClass.indexOf('rounded-2xl') !== -1 && parentClass.indexOf('shadow') !== -1) return true;
-          // Skip if in courses/books section
-          if(parentClass.indexOf('grid') !== -1 && parentClass.indexOf('gap') !== -1) return true;
-          parent = parent.parentElement;
-        }
-        
-        return false;
-      }
-      
-      function getLocalImageForUrl(src){
-        if(!src) return null;
-        var srcLower = src.toLowerCase();
-        // Never return replacement for Unsplash/Pexels images
-        if(srcLower.indexOf('unsplash.com') !== -1) return null;
-        if(srcLower.indexOf('pexels.com') !== -1) return null;
-        for(var key in serviceImageMap){
-          if(srcLower.indexOf(key) !== -1){
-            return serviceImageMap[key];
-          }
-        }
-        return null;
-      }
-
-      function fixServiceImages(){
-        try{
-          // ONLY add error handlers - don't proactively replace images
-          // This prevents issues on page refresh where images aren't loaded yet
-          Array.from(document.images).forEach(function(img){
-            if(!img.getAttribute('data-st-error-handler')){
-              img.setAttribute('data-st-error-handler', '1');
-              img.onerror = function(){
-                // Skip Unsplash/Pexels images - never replace them
-                var src = (this.src || '').toLowerCase();
-                if(src.indexOf('unsplash.com') !== -1 || src.indexOf('pexels.com') !== -1){
-                  return;
-                }
-                // Skip images in cards (h-48 class)
-                if((this.className || '').indexOf('h-48') !== -1) return;
-                
-                var localImg = getLocalImageForUrl(this.src);
-                if(localImg && this.src !== localImg){
-                  this.src = localImg;
-                }
-              };
-            }
-          });
-        }catch(e){}
-      }
-
       function fixWhatsAppLinks(){
         try{
           document.querySelectorAll('a[href*="api.whatsapp.com/send"]').forEach(function(a){
@@ -182,20 +75,17 @@
 
       function replaceHeaderLogo(){
         try{
-          // ONLY target images in header/nav - not product cards
-          var headerImages = document.querySelectorAll('header img, nav img, [class*="header"] img, [class*="nav"] img');
+          // ONLY target logo images in header/nav with specific filename
+          var headerImages = document.querySelectorAll('header img, nav img');
           headerImages.forEach(function(ii){
             try{
-              // Skip course/book images
-              if(shouldSkipImage(ii)) return;
-              
               var s = ii.src || '';
               var decoded = '';
               try{ decoded = decodeURIComponent(s); }catch(e){}
-              if(/Digital%20Hub|Digital Hub|Digital%20Hub%20\(3\)|Digital.*Hub|Digital%20Hub%20\(3\)-EMeIYudr/i.test(decoded) || /Digital%20Hub%20\(3\)-EMeIYudr|Digital%20Hub/i.test(s)){
+              // Only replace if it's the old Digital Hub logo
+              if(/Digital%20Hub|Digital%20Hub%20\(3\)-EMeIYudr/i.test(decoded) || /Digital%20Hub%20\(3\)-EMeIYudr/i.test(s)){
                 ii.src = 'assets/images/st-logo.svg';
                 ii.alt = 'Shahid Tools';
-                // Don't override sizes - keep original CSS
               }
             }catch(e){}
           });
@@ -204,183 +94,31 @@
 
       function insertLogoInContactCard(){
         try{
-          // Find CEO card section - be more specific to avoid matching service cards
-          // Look for the footer section or specific CEO section that has "Meet Our" text
-          var ceoCard = null;
-          var candidates = document.querySelectorAll('footer, [class*="footer"], section');
-          for(var i = 0; i < candidates.length; i++){
-            var el = candidates[i];
-            var t = (el.textContent || '').toLowerCase();
-            // Must contain CEO-related text AND not be a service card container
-            if(t.indexOf('meet our') !== -1 && (t.indexOf('ceo') !== -1 || t.indexOf('shahid sipra') !== -1)){
-              // Check it's not inside a service card (h-48 images are service cards)
-              if(!el.querySelector('.h-48') && !el.classList.contains('h-48')){
-                ceoCard = el;
-                break;
-              }
-            }
-          }
+          var footerSection = document.querySelector('footer');
+          if(!footerSection) return;
           
-          if(!ceoCard) return;
-          
-          // Only replace images that are specifically in the CEO section, not service images
-          // CEO images are typically small (w-16 to w-24) and round
-          Array.from(ceoCard.querySelectorAll('img')).forEach(function(img){
+          Array.from(footerSection.querySelectorAll('img')).forEach(function(img){
             try{
-              // Skip if already processed or if it's a service image (h-48 class)
               if(img.getAttribute('data-st-ceo-photo')) return;
-              if(img.classList.contains('h-48') || img.classList.contains('object-cover')) return;
-              if(img.closest('.h-48')) return;
-              
-              // Only target small round images (CEO avatar size)
               var rect = img.getBoundingClientRect();
-              if(rect.width > 100 || rect.height > 100) return;
+              // Only very small round images (CEO avatars are typically ~64px)
+              if(rect.width > 80 || rect.height > 80) return;
+              if(rect.width < 30) return;
               
               img.src = 'assets/images/ceo-avatar.svg';
               img.alt = 'Mr Shahid Sipra - CEO';
               img.setAttribute('data-st-ceo-photo','1');
             }catch(e){}
           });
-          
-          // Find avatar divs that show initials - be very strict about what we match
-          Array.from(ceoCard.querySelectorAll('div, span')).forEach(function(el){
-            try{
-              // Skip if this element or any parent has service-card indicators
-              if(el.closest('.h-48') || el.closest('[class*="service"]')) return;
-              
-              var text = (el.textContent || '').trim();
-              var style = window.getComputedStyle(el);
-              var isRound = style.borderRadius && (style.borderRadius.indexOf('50%') !== -1 || parseInt(style.borderRadius) > 20);
-              var isSmall = el.offsetWidth < 100 && el.offsetHeight < 100 && el.offsetWidth > 30;
-              
-              // Only match if it specifically contains CEO name references, not generic initials
-              var isCeoAvatar = isRound && isSmall && text.length <= 15 && 
-                (text.indexOf('Mr') !== -1 || text.indexOf('Shahid') !== -1 || text === 'MS' || text === 'SS');
-              
-              if(isCeoAvatar && !el.getAttribute('data-st-ceo-replaced')){
-                el.innerHTML = '';
-                var img = document.createElement('img');
-                img.src = 'assets/images/ceo-avatar.svg';
-                img.alt = 'Mr Shahid Sipra - CEO';
-                img.style.width = '100%';
-                img.style.height = '100%';
-                img.style.objectFit = 'cover';
-                img.style.borderRadius = '50%';
-                el.appendChild(img);
-                el.setAttribute('data-st-ceo-replaced','1');
-              }
-              
-              // Also replace background-image CSS on divs that look like CEO avatars
-              if(isRound && isSmall){
-                var bgImg = style.backgroundImage;
-                if(bgImg && bgImg.indexOf('url') !== -1 && bgImg !== 'none'){
-                  el.style.backgroundImage = 'url(assets/images/ceo-avatar.svg)';
-                  el.setAttribute('data-st-ceo-photo','1');
-                }
-              }
-            }catch(e){}
-          });
         }catch(e){}
       }
 
-      // Fix a single image element - ONLY add error handler, don't proactively replace
-      function fixSingleImage(img){
-        try{
-          // Skip already processed
-          if(img.getAttribute('data-st-error-handler')) return;
-          
-          var src = (img.src || '').toLowerCase();
-          
-          // Skip Unsplash/Pexels images completely
-          if(src.indexOf('unsplash.com') !== -1 || src.indexOf('pexels.com') !== -1){
-            img.setAttribute('data-st-error-handler', '1');
-            return;
-          }
-          
-          // Skip images in cards (h-48 class used for product images)
-          if((img.className || '').indexOf('h-48') !== -1){
-            img.setAttribute('data-st-error-handler', '1');
-            return;
-          }
-          
-          // Only add error handler - don't proactively change src
-          img.setAttribute('data-st-error-handler', '1');
-          img.onerror = function(){
-            var s = (this.src || '').toLowerCase();
-            if(s.indexOf('unsplash.com') !== -1 || s.indexOf('pexels.com') !== -1) return;
-            var localImg = getLocalImageForUrl(this.src);
-            if(localImg && this.src !== localImg){
-              this.src = localImg;
-            }
-          };
-        }catch(e){}
-      }
-
-      // Use MutationObserver to catch images as soon as React adds them
-      function setupImageObserver(){
-        var observer = new MutationObserver(function(mutations){
-          mutations.forEach(function(mutation){
-            // Check added nodes
-            mutation.addedNodes.forEach(function(node){
-              if(node.nodeType === 1){ // Element node
-                // If it's an image, fix it
-                if(node.tagName === 'IMG'){
-                  fixSingleImage(node);
-                }
-                // Check for images inside the added element
-                if(node.querySelectorAll){
-                  node.querySelectorAll('img').forEach(function(img){
-                    fixSingleImage(img);
-                  });
-                }
-              }
-            });
-            
-            // Also check if src attribute changed on existing images
-            if(mutation.type === 'attributes' && mutation.attributeName === 'src'){
-              var img = mutation.target;
-              if(img.tagName === 'IMG' && !img.getAttribute('data-st-fixed')){
-                fixSingleImage(img);
-              }
-            }
-          });
-        });
-        
-        observer.observe(document.body || document.documentElement, {
-          childList: true,
-          subtree: true,
-          attributes: true,
-          attributeFilter: ['src']
-        });
-      }
-
-      // Run initial fixes
+      // Run only once after page loads
       document.addEventListener('DOMContentLoaded', function(){
         fixWhatsAppLinks();
-        replaceHeaderLogo();
-        fixServiceImages();
-        setupImageObserver();
+        setTimeout(replaceHeaderLogo, 500);
+        setTimeout(insertLogoInContactCard, 1000);
       });
-      
-      // Also start observer immediately if body exists
-      if(document.body){
-        setupImageObserver();
-      }
-
-      // Run fixes immediately and on short intervals for first few seconds
-      fixServiceImages();
-      setTimeout(fixServiceImages, 100);
-      setTimeout(fixServiceImages, 300);
-      setTimeout(fixServiceImages, 600);
-
-      // Try again after React renders, up to a few attempts
-      var attempts = 0;
-      var interval = setInterval(function(){
-        replaceHeaderLogo();
-        insertLogoInContactCard();
-        fixServiceImages();
-        attempts++; if(attempts>20) clearInterval(interval);
-      }, 250);
     })();
   </script>
 </body>
