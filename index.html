@@ -114,6 +114,12 @@
               var src = img.src || '';
               var alt = (img.alt || '').toLowerCase();
               
+              // IMPORTANT: Skip Unsplash images - these are for courses and should NOT be replaced
+              if(src.indexOf('unsplash.com') !== -1 || src.indexOf('images.unsplash.com') !== -1){
+                img.setAttribute('data-st-fixed', '1'); // Mark as processed to prevent future processing
+                return;
+              }
+              
               // Check if this is an external image that might fail
               if(src.indexOf('http') === 0 && src.indexOf(window.location.host) === -1){
                 var localImg = getLocalImageForUrl(src);
@@ -139,6 +145,10 @@
             if(!img.getAttribute('data-st-error-handler')){
               img.setAttribute('data-st-error-handler', '1');
               img.onerror = function(){
+                // Skip Unsplash images - don't replace them even on error
+                if(this.src && (this.src.indexOf('unsplash.com') !== -1 || this.src.indexOf('images.unsplash.com') !== -1)){
+                  return;
+                }
                 var localImg = getLocalImageForUrl(this.src) || getLocalImageForUrl(this.alt);
                 if(localImg && this.src !== localImg){
                   this.src = localImg;
@@ -273,6 +283,12 @@
           var src = img.src || '';
           var alt = (img.alt || '').toLowerCase();
           
+          // IMPORTANT: Skip Unsplash images - these are for courses and should NOT be replaced
+          if(src.indexOf('unsplash.com') !== -1 || src.indexOf('images.unsplash.com') !== -1){
+            img.setAttribute('data-st-fixed', '1'); // Mark as processed to prevent future processing
+            return;
+          }
+          
           // Check if this is an external image
           if(src.indexOf('http') === 0 && src.indexOf(window.location.host) === -1){
             var localImg = getLocalImageForUrl(src);
@@ -287,6 +303,10 @@
           if(!img.getAttribute('data-st-error-handler')){
             img.setAttribute('data-st-error-handler', '1');
             img.onerror = function(){
+              // Skip Unsplash images - don't replace them even on error
+              if(this.src && (this.src.indexOf('unsplash.com') !== -1 || this.src.indexOf('images.unsplash.com') !== -1)){
+                return;
+              }
               var localImg = getLocalImageForUrl(this.src) || getLocalImageForUrl(this.alt);
               if(localImg && this.src !== localImg){
                 this.src = localImg;
