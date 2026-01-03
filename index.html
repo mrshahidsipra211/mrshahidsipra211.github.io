@@ -140,51 +140,21 @@
 
       function fixServiceImages(){
         try{
-          Array.from(document.images).forEach(function(img){
-            try{
-              // Skip images that should not be processed (Unsplash, Pexels, etc.)
-              if(shouldSkipImage(img)) {
-                img.setAttribute('data-st-fixed', '1');
-                img.setAttribute('data-st-skip', '1');
-                return;
-              }
-              
-              // Skip already processed images
-              if(img.getAttribute('data-st-fixed')) return;
-              
-              var src = img.src || '';
-              var alt = (img.alt || '').toLowerCase();
-              
-              // Check if this is an external image that might fail
-              if(src.indexOf('http') === 0 && src.indexOf(window.location.host) === -1){
-                var localImg = getLocalImageForUrl(src);
-                if(localImg){
-                  img.src = localImg;
-                  img.setAttribute('data-st-fixed', '1');
-                }
-              }
-              
-              // Also handle images that already failed (showing broken/placeholder)
-              if(!img.complete || img.naturalWidth === 0){
-                var localImg = getLocalImageForUrl(src) || getLocalImageForUrl(alt);
-                if(localImg){
-                  img.src = localImg;
-                  img.setAttribute('data-st-fixed', '1');
-                }
-              }
-            }catch(e){}
-          });
-          
-          // Add error handlers to catch images that fail after page load
+          // ONLY add error handlers - don't proactively replace images
+          // This prevents issues on page refresh where images aren't loaded yet
           Array.from(document.images).forEach(function(img){
             if(!img.getAttribute('data-st-error-handler')){
               img.setAttribute('data-st-error-handler', '1');
               img.onerror = function(){
-                // Skip Unsplash images - don't replace them even on error
-                if(this.src && (this.src.indexOf('unsplash.com') !== -1 || this.src.indexOf('images.unsplash.com') !== -1)){
+                // Skip Unsplash/Pexels images - never replace them
+                var src = (this.src || '').toLowerCase();
+                if(src.indexOf('unsplash.com') !== -1 || src.indexOf('pexels.com') !== -1){
                   return;
                 }
-                var localImg = getLocalImageForUrl(this.src) || getLocalImageForUrl(this.alt);
+                // Skip images in cards (h-48 class)
+                if((this.className || '').indexOf('h-48') !== -1) return;
+                
+                var localImg = getLocalImageForUrl(this.src);
                 if(localImg && this.src !== localImg){
                   this.src = localImg;
                 }
@@ -313,46 +283,36 @@
         }catch(e){}
       }
 
-      // Fix a single image element
+      // Fix a single image element - ONLY add error handler, don't proactively replace
       function fixSingleImage(img){
         try{
-          // Skip images that should not be processed (Unsplash, Pexels, etc.)
-          if(shouldSkipImage(img)) {
-            img.setAttribute('data-st-fixed', '1');
-            img.setAttribute('data-st-skip', '1');
+          // Skip already processed
+          if(img.getAttribute('data-st-error-handler')) return;
+          
+          var src = (img.src || '').toLowerCase();
+          
+          // Skip Unsplash/Pexels images completely
+          if(src.indexOf('unsplash.com') !== -1 || src.indexOf('pexels.com') !== -1){
+            img.setAttribute('data-st-error-handler', '1');
             return;
           }
           
-          if(img.getAttribute('data-st-fixed')) return;
-          
-          var src = img.src || '';
-          var alt = (img.alt || '').toLowerCase();
-          
-          // Check if this is an external image
-          if(src.indexOf('http') === 0 && src.indexOf(window.location.host) === -1){
-            var localImg = getLocalImageForUrl(src);
-            if(localImg){
-              img.src = localImg;
-              img.setAttribute('data-st-fixed', '1');
-              return;
-            }
-          }
-          
-          // Add error handler for images that might fail later
-          if(!img.getAttribute('data-st-error-handler')){
+          // Skip images in cards (h-48 class used for product images)
+          if((img.className || '').indexOf('h-48') !== -1){
             img.setAttribute('data-st-error-handler', '1');
-            img.onerror = function(){
-              // Skip Unsplash images - don't replace them even on error
-              if(this.src && (this.src.indexOf('unsplash.com') !== -1 || this.src.indexOf('images.unsplash.com') !== -1)){
-                return;
-              }
-              var localImg = getLocalImageForUrl(this.src) || getLocalImageForUrl(this.alt);
-              if(localImg && this.src !== localImg){
-                this.src = localImg;
-                this.setAttribute('data-st-fixed', '1');
-              }
-            };
+            return;
           }
+          
+          // Only add error handler - don't proactively change src
+          img.setAttribute('data-st-error-handler', '1');
+          img.onerror = function(){
+            var s = (this.src || '').toLowerCase();
+            if(s.indexOf('unsplash.com') !== -1 || s.indexOf('pexels.com') !== -1) return;
+            var localImg = getLocalImageForUrl(this.src);
+            if(localImg && this.src !== localImg){
+              this.src = localImg;
+            }
+          };
         }catch(e){}
       }
 
