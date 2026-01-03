@@ -93,15 +93,34 @@
         'adobe': 'assets/images/services/adobe.png'
       };
       
-      // Helper function to check if image should be skipped (Unsplash, Pexels, etc.)
+      // Helper function to check if image should be skipped (course/book images)
       function shouldSkipImage(img){
         var src = (img.src || '').toLowerCase();
         var dataSrc = (img.getAttribute('data-src') || '').toLowerCase();
-        // Skip course/book images from external sources that should NOT be replaced
+        
+        // Skip course/book images from external sources
         if(src.indexOf('unsplash.com') !== -1 || dataSrc.indexOf('unsplash.com') !== -1) return true;
         if(src.indexOf('pexels.com') !== -1 || dataSrc.indexOf('pexels.com') !== -1) return true;
-        // Skip images already marked as fixed or course images
+        
+        // Skip images already marked
         if(img.getAttribute('data-st-skip')) return true;
+        
+        // Skip images with card classes (h-48 is used for product/course card images)
+        var imgClass = (img.className || '').toLowerCase();
+        if(imgClass.indexOf('h-48') !== -1) return true;
+        if(imgClass.indexOf('object-cover') !== -1 && imgClass.indexOf('h-48') !== -1) return true;
+        
+        // Skip images inside product card containers
+        var parent = img.parentElement;
+        for(var i = 0; i < 5 && parent; i++){
+          var parentClass = (parent.className || '').toLowerCase();
+          // Skip if inside a card (rounded-2xl is used on cards)
+          if(parentClass.indexOf('rounded-2xl') !== -1 && parentClass.indexOf('shadow') !== -1) return true;
+          // Skip if in courses/books section
+          if(parentClass.indexOf('grid') !== -1 && parentClass.indexOf('gap') !== -1) return true;
+          parent = parent.parentElement;
+        }
+        
         return false;
       }
       
@@ -193,11 +212,11 @@
 
       function replaceHeaderLogo(){
         try{
-          // Explicitly replace known original header logo filenames (from original site)
-          // Keep original sizes - don't override CSS
-          Array.from(document.images).forEach(function(ii){
+          // ONLY target images in header/nav - not product cards
+          var headerImages = document.querySelectorAll('header img, nav img, [class*="header"] img, [class*="nav"] img');
+          headerImages.forEach(function(ii){
             try{
-              // Skip course/book images (Unsplash, Pexels)
+              // Skip course/book images
               if(shouldSkipImage(ii)) return;
               
               var s = ii.src || '';
