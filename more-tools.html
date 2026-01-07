@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>More Tools - WhatsApp Numbers & Social Media Growth | Shahid Tools</title>
+    <meta name="description" content="Get WhatsApp numbers from 30+ countries and boost your social media growth with likes, followers, comments for all platforms.">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Same gradient text as main site */
+        .gradient-text {
+            background: linear-gradient(to right, #3b82f6, #8b5cf6, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .instagram-gradient {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        .tiktok-gradient {
+            background: linear-gradient(45deg, #00f2ea 0%, #ff0050 100%);
+        }
+        /* Card hover effects like main site */
+        .card-hover {
+            transition: all .3s cubic-bezier(.4,0,.2,1);
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,.1), 0 10px 10px -5px rgba(0,0,0,.04);
+        }
+        .service-card:hover {
+            transform: translateX(5px);
+        }
+        .country-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.15);
+        }
+        .country-card:hover .code-badge {
+            transform: scale(1.1);
+        }
+        .service-card:hover i.fa-chevron-right {
+            color: #10b981;
+            transform: translateX(3px);
+        }
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1f2937;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #374151;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4b5563;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
+
+    <!-- Top Navigation Bar - Same as main site -->
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo & Brand -->
+                <a href="/" class="flex items-center space-x-3">
+                    <div class="relative">
+                        <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center shadow-lg">
+                            <span class="text-white font-bold text-sm">ST</span>
+                        </div>
+                        <div class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+                    </div>
+                    <div class="hidden sm:block">
+                        <h1 class="text-lg font-bold gradient-text">Shahid Tools</h1>
+                        <p class="text-xs text-gray-500 flex items-center">CEO: Mr Shahid Sipra <span class="ml-2 flex items-center"><span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span><span class="text-green-600">Online</span></span></p>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden lg:flex items-center space-x-1">
+                    <a href="/" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-600 hover:bg-gray-100 transition-all">Home</a>
+                    <a href="/#digital-services" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-600 hover:bg-gray-100 transition-all">Digital Services</a>
+                    <a href="/#premium-tools" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-600 hover:bg-gray-100 transition-all">Premium Tools</a>
+                    <a href="/#free-courses" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-600 hover:bg-gray-100 transition-all">Free Courses</a>
+                    <a href="/#free-books" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-600 hover:bg-gray-100 transition-all">Free Books</a>
+                    <a href="/#contact" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-600 hover:bg-gray-100 transition-all">Contact Us</a>
+                    <a href="/more-tools.html" class="px-4 py-2 rounded-full text-sm font-semibold bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 transition-all">More Tools</a>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                    <i class="fas fa-bars text-gray-600 text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="lg:hidden hidden bg-white border-t border-gray-200">
+            <div class="px-4 py-3 space-y-1">
+                <a href="/" class="block px-4 py-3 rounded-lg font-medium text-base text-gray-700 hover:bg-gray-100 transition-all">Home</a>
+                <a href="/#digital-services" class="block px-4 py-3 rounded-lg font-medium text-base text-gray-700 hover:bg-gray-100 transition-all">Digital Services</a>
+                <a href="/#premium-tools" class="block px-4 py-3 rounded-lg font-medium text-base text-gray-700 hover:bg-gray-100 transition-all">Premium Tools</a>
+                <a href="/#free-courses" class="block px-4 py-3 rounded-lg font-medium text-base text-gray-700 hover:bg-gray-100 transition-all">Free Courses</a>
+                <a href="/#free-books" class="block px-4 py-3 rounded-lg font-medium text-base text-gray-700 hover:bg-gray-100 transition-all">Free Books</a>
+                <a href="/#contact" class="block px-4 py-3 rounded-lg font-medium text-base text-gray-700 hover:bg-gray-100 transition-all">Contact Us</a>
+                <a href="/more-tools.html" class="block px-4 py-3 rounded-lg font-medium text-base bg-gradient-to-r from-blue-500 to-purple-600 text-white">More Tools</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Hero Title -->
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full mb-6">
+                    <span class="text-blue-700 font-semibold">Premium Services</span>
+                </div>
+                <h1 class="text-4xl md:text-6xl font-black text-gray-900 mb-6">
+                    More <span class="gradient-text">Tools</span> & Services
+                </h1>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Get WhatsApp numbers from <span class="font-bold text-blue-600">30+ countries</span> and 
+                    boost your social media with our <span class="font-bold text-purple-600">premium growth services</span>
+                </p>
+            </div>
+
+            <!-- WhatsApp Numbers Section -->
+            <div id="countries-section" class="mb-20">
+                <div class="text-center mb-10">
+                    <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-green-400 to-emerald-600 rounded-2xl mb-4 shadow-xl shadow-green-500/30">
+                        <i class="fab fa-whatsapp text-4xl text-white"></i>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                        WhatsApp Numbers by Country
+                    </h2>
+                    <p class="text-gray-600 text-lg">
+                        Click on any country to get a WhatsApp number with that country code
+                    </p>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4" id="countries-grid">
+                    <!-- Countries will be inserted by JS -->
+                </div>
+            </div>
+
+            <!-- Social Media Growth Section -->
+            <div id="social-section" class="mb-20">
+                <div class="text-center mb-10">
+                    <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-pink-500 via-purple-500 to-indigo-600 rounded-2xl mb-4 shadow-xl shadow-purple-500/30">
+                        <i class="fas fa-rocket text-4xl text-white"></i>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                        Social Media Growth Services
+                    </h2>
+                    <p class="text-gray-600 text-lg">
+                        Boost your presence on all major platforms with <span class="text-purple-600 font-semibold">real engagement</span>
+                    </p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="social-grid">
+                    <!-- Platforms will be inserted by JS -->
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer - Same as main site -->
+    <footer class="bg-slate-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <!-- Brand Section -->
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg">
+                            <span class="text-white font-bold">ST</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold gradient-text">Shahid Tools</h3>
+                            <p class="text-gray-400 text-sm">CEO: Mr Shahid Sipra</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                        Empowering your digital journey with premium tools, expert services, and high-value educational content. At <span class="text-white font-semibold">Shahid Tools</span>, we fuel growth for individuals and businesses with innovation, trust, and next-level solutions.
+                    </p>
+                    <div class="flex space-x-3">
+                        <a href="#" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors">
+                            <i class="fab fa-facebook-f text-gray-400 hover:text-white"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-pink-600 transition-colors">
+                            <i class="fab fa-instagram text-gray-400 hover:text-white"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-bold text-white mb-4">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="/" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
+                        <li><a href="/#digital-services" class="text-gray-400 hover:text-white transition-colors">Digital Services</a></li>
+                        <li><a href="/#premium-tools" class="text-gray-400 hover:text-white transition-colors">Premium Tools</a></li>
+                        <li><a href="/#free-courses" class="text-gray-400 hover:text-white transition-colors">Free Courses</a></li>
+                        <li><a href="/#free-books" class="text-gray-400 hover:text-white transition-colors">Free Books</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h4 class="text-lg font-bold text-white mb-4">Contact Info</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-center space-x-3">
+                            <i class="fas fa-map-marker-alt text-green-400"></i>
+                            <span class="text-gray-400">Chiniot, Pakistan</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i class="fas fa-phone text-green-400"></i>
+                            <a href="tel:+923211740211" class="text-gray-400 hover:text-white transition-colors">+923211740211</a>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i class="fas fa-phone text-green-400"></i>
+                            <a href="tel:+923438322854" class="text-gray-400 hover:text-white transition-colors">+923438322854</a>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i class="fas fa-envelope text-green-400"></i>
+                            <a href="mailto:sad582865@gmail.com" class="text-gray-400 hover:text-white transition-colors">sad582865@gmail.com</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Copyright Bar -->
+        <div class="border-t border-slate-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                <p class="text-center text-gray-400 text-sm">
+                    © 2026 Shahid Tools. All rights reserved. | 
+                    <a href="/more-tools.html" class="text-blue-400 hover:text-blue-300 transition-colors">More Tools</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            const icon = mobileMenuBtn.querySelector('i');
+            if (mobileMenu.classList.contains('hidden')) {
+                icon.className = 'fas fa-bars text-gray-600 text-xl';
+            } else {
+                icon.className = 'fas fa-times text-gray-600 text-xl';
+            }
+        });
+
+        const countries = [
+            {name: "Pakistan", code: "+92", countryCode: "pk", emoji: "🇵🇰"},
+            {name: "India", code: "+91", countryCode: "in", emoji: "🇮🇳"},
+            {name: "United States", code: "+1", countryCode: "us", emoji: "🇺🇸"},
+            {name: "United Kingdom", code: "+44", countryCode: "gb", emoji: "🇬🇧"},
+            {name: "Canada", code: "+1", countryCode: "ca", emoji: "🇨🇦"},
+            {name: "Australia", code: "+61", countryCode: "au", emoji: "🇦🇺"},
+            {name: "Germany", code: "+49", countryCode: "de", emoji: "🇩🇪"},
+            {name: "France", code: "+33", countryCode: "fr", emoji: "🇫🇷"},
+            {name: "Saudi Arabia", code: "+966", countryCode: "sa", emoji: "🇸🇦"},
+            {name: "UAE", code: "+971", countryCode: "ae", emoji: "🇦🇪"},
+            {name: "Turkey", code: "+90", countryCode: "tr", emoji: "🇹🇷"},
+            {name: "Indonesia", code: "+62", countryCode: "id", emoji: "🇮🇩"},
+            {name: "Malaysia", code: "+60", countryCode: "my", emoji: "🇲🇾"},
+            {name: "Bangladesh", code: "+880", countryCode: "bd", emoji: "🇧🇩"},
+            {name: "Philippines", code: "+63", countryCode: "ph", emoji: "🇵🇭"},
+            {name: "South Africa", code: "+27", countryCode: "za", emoji: "🇿🇦"},
+            {name: "Nigeria", code: "+234", countryCode: "ng", emoji: "🇳🇬"},
+            {name: "Egypt", code: "+20", countryCode: "eg", emoji: "🇪🇬"},
+            {name: "Brazil", code: "+55", countryCode: "br", emoji: "🇧🇷"},
+            {name: "Mexico", code: "+52", countryCode: "mx", emoji: "🇲🇽"},
+            {name: "Italy", code: "+39", countryCode: "it", emoji: "🇮🇹"},
+            {name: "Spain", code: "+34", countryCode: "es", emoji: "🇪🇸"},
+            {name: "Netherlands", code: "+31", countryCode: "nl", emoji: "🇳🇱"},
+            {name: "Sweden", code: "+46", countryCode: "se", emoji: "🇸🇪"},
+            {name: "Norway", code: "+47", countryCode: "no", emoji: "🇳🇴"},
+            {name: "Denmark", code: "+45", countryCode: "dk", emoji: "🇩🇰"},
+            {name: "Switzerland", code: "+41", countryCode: "ch", emoji: "🇨🇭"},
+            {name: "Japan", code: "+81", countryCode: "jp", emoji: "🇯🇵"},
+            {name: "South Korea", code: "+82", countryCode: "kr", emoji: "🇰🇷"},
+            {name: "China", code: "+86", countryCode: "cn", emoji: "🇨🇳"}
+        ];
+
+        const platforms = [
+            {
+                platform: "Instagram",
+                emoji: "📸",
+                icon: "fab fa-instagram",
+                iconBg: "instagram-gradient",
+                services: [
+                    {name: "Followers", emoji: "👥", desc: "Real & Active Followers", icon: "fas fa-users", color: "text-pink-500"},
+                    {name: "Likes", emoji: "❤️", desc: "Post & Reel Likes", icon: "fas fa-heart", color: "text-red-500"},
+                    {name: "Views", emoji: "👁️", desc: "Reels & Story Views", icon: "fas fa-eye", color: "text-pink-400"},
+                    {name: "Comments", emoji: "💬", desc: "Custom Comments", icon: "fas fa-comment", color: "text-purple-500"},
+                    {name: "Saves", emoji: "🔖", desc: "Post Saves", icon: "fas fa-bookmark", color: "text-pink-600"}
+                ]
+            },
+            {
+                platform: "TikTok",
+                emoji: "🎵",
+                icon: "fab fa-tiktok",
+                iconBg: "tiktok-gradient",
+                services: [
+                    {name: "Followers", emoji: "👥", desc: "TikTok Followers", icon: "fas fa-users", color: "text-cyan-400"},
+                    {name: "Likes", emoji: "❤️", desc: "Video Likes", icon: "fas fa-heart", color: "text-pink-500"},
+                    {name: "Views", emoji: "👁️", desc: "Video Views", icon: "fas fa-eye", color: "text-cyan-300"},
+                    {name: "Shares", emoji: "🔄", desc: "Video Shares", icon: "fas fa-share", color: "text-pink-400"},
+                    {name: "Comments", emoji: "💬", desc: "Real Comments", icon: "fas fa-comment", color: "text-cyan-500"}
+                ]
+            },
+            {
+                platform: "YouTube",
+                emoji: "📺",
+                icon: "fab fa-youtube",
+                iconBg: "bg-red-600",
+                services: [
+                    {name: "Subscribers", emoji: "🔔", desc: "Channel Subscribers", icon: "fas fa-user-plus", color: "text-red-500"},
+                    {name: "Views", emoji: "👁️", desc: "Video Views", icon: "fas fa-eye", color: "text-red-400"},
+                    {name: "Likes", emoji: "👍", desc: "Video Likes", icon: "fas fa-thumbs-up", color: "text-red-500"},
+                    {name: "Watch Hours", emoji: "⏰", desc: "4000 Watch Hours", icon: "fas fa-clock", color: "text-red-600"},
+                    {name: "Comments", emoji: "💬", desc: "Video Comments", icon: "fas fa-comment", color: "text-red-400"}
+                ]
+            },
+            {
+                platform: "Facebook",
+                emoji: "📘",
+                icon: "fab fa-facebook-f",
+                iconBg: "bg-blue-600",
+                services: [
+                    {name: "Page Likes", emoji: "👍", desc: "Facebook Page Likes", icon: "fas fa-thumbs-up", color: "text-blue-500"},
+                    {name: "Followers", emoji: "👥", desc: "Profile Followers", icon: "fas fa-users", color: "text-blue-400"},
+                    {name: "Post Likes", emoji: "❤️", desc: "Post & Photo Likes", icon: "fas fa-heart", color: "text-blue-500"},
+                    {name: "Views", emoji: "👁️", desc: "Video Views", icon: "fas fa-eye", color: "text-blue-400"},
+                    {name: "Comments", emoji: "💬", desc: "Real Comments", icon: "fas fa-comment", color: "text-blue-600"}
+                ]
+            },
+            {
+                platform: "Twitter / X",
+                emoji: "🐦",
+                icon: "fab fa-x-twitter",
+                iconBg: "bg-gray-900",
+                services: [
+                    {name: "Followers", emoji: "👥", desc: "Twitter Followers", icon: "fas fa-users", color: "text-gray-600"},
+                    {name: "Likes", emoji: "❤️", desc: "Tweet Likes", icon: "fas fa-heart", color: "text-red-400"},
+                    {name: "Retweets", emoji: "🔄", desc: "Post Retweets", icon: "fas fa-retweet", color: "text-green-400"},
+                    {name: "Views", emoji: "👁️", desc: "Tweet Views", icon: "fas fa-eye", color: "text-blue-400"},
+                    {name: "Comments", emoji: "💬", desc: "Tweet Replies", icon: "fas fa-comment", color: "text-gray-500"}
+                ]
+            },
+            {
+                platform: "LinkedIn",
+                emoji: "💼",
+                icon: "fab fa-linkedin-in",
+                iconBg: "bg-blue-700",
+                services: [
+                    {name: "Followers", emoji: "👥", desc: "Profile Followers", icon: "fas fa-users", color: "text-blue-400"},
+                    {name: "Connections", emoji: "🤝", desc: "New Connections", icon: "fas fa-user-plus", color: "text-blue-500"},
+                    {name: "Likes", emoji: "👍", desc: "Post Likes", icon: "fas fa-thumbs-up", color: "text-blue-400"},
+                    {name: "Comments", emoji: "💬", desc: "Post Comments", icon: "fas fa-comment", color: "text-blue-600"},
+                    {name: "Shares", emoji: "🔄", desc: "Post Shares", icon: "fas fa-share", color: "text-blue-500"}
+                ]
+            }
+        ];
+
+        // Render countries with flag images
+        const countriesGrid = document.getElementById('countries-grid');
+        countries.forEach((country, index) => {
+            const card = document.createElement('div');
+            card.className = 'country-card bg-white rounded-2xl p-4 border border-gray-100 hover:border-green-400 transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl card-hover';
+            card.onclick = () => orderWhatsApp(country);
+            card.innerHTML = `
+                <div class="flex flex-col items-center text-center">
+                    <div class="mb-3">
+                        <img src="https://flagcdn.com/w80/${country.countryCode}.png" 
+                             srcset="https://flagcdn.com/w160/${country.countryCode}.png 2x"
+                             alt="${country.name}" 
+                             class="w-16 h-12 object-cover rounded-lg shadow-md">
+                    </div>
+                    <h3 class="font-bold text-gray-800 text-sm mb-1">${country.name}</h3>
+                    <p class="text-xs text-gray-500 mb-2">WhatsApp Code</p>
+                    <div class="code-badge bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 py-1.5 rounded-full font-bold text-sm shadow-md transition-transform">
+                        ${country.code}
+                    </div>
+                </div>
+            `;
+            countriesGrid.appendChild(card);
+        });
+
+        // Render platforms with light theme design
+        const socialGrid = document.getElementById('social-grid');
+        platforms.forEach(platform => {
+            const card = document.createElement('div');
+            card.className = 'bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300 card-hover';
+            
+            const servicesHTML = platform.services.map(s => `
+                <div class="service-card flex items-center justify-between p-3 hover:bg-gray-50 rounded-xl transition-all cursor-pointer border border-transparent hover:border-gray-200" onclick="orderService('${platform.platform}', '${s.name}')">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center shadow-sm">
+                            <i class="${s.icon} ${s.color}"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-800 text-sm">${s.name}</h4>
+                            <p class="text-gray-500 text-xs">${s.desc}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xs text-gray-400">Order</span>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </div>
+                </div>
+            `).join('');
+            
+            card.innerHTML = `
+                <div class="p-5 flex items-center space-x-4 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white">
+                    <div class="w-14 h-14 ${platform.iconBg} rounded-xl flex items-center justify-center shadow-lg">
+                        <i class="${platform.icon} text-white text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800">${platform.platform}</h3>
+                        <p class="text-xs text-gray-500">Growth Services</p>
+                    </div>
+                </div>
+                <div class="p-3 space-y-1">
+                    ${servicesHTML}
+                </div>
+            `;
+            socialGrid.appendChild(card);
+        });
+
+        function orderWhatsApp(country) {
+            const msg = `🌍 *WhatsApp Number Service Request*
+
+📱 Country: ${country.name}
+📞 Country Code: ${country.code}
+
+I want to get a WhatsApp number for ${country.name}. Please provide pricing and availability.
+
+🌐 Website: https://shahidtools.me`;
+            window.open(`https://wa.me/+923211740211?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function orderService(platform, service) {
+            const msg = `📱 *Social Media Growth Service Request*
+
+🎯 Platform: ${platform}
+📊 Service: ${service}
+
+I want to order ${service} for my ${platform} account. Please provide pricing and packages.
+
+🌐 Website: https://shahidtools.me`;
+            window.open(`https://wa.me/+923211740211?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+    </script>
+</body>
+</html>
